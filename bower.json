@@ -24,6 +24,6 @@
     "core-elements": "Polymer/core-elements#~0.5.1",
     "paper-elements": "Polymer/paper-elements#~0.5.1",
     "requirejs": "~2.1.15",
-    "famous": "0.3.0"
+    "famous": "~0.3.1"
   }
 }
