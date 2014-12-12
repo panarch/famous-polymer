@@ -11,6 +11,8 @@ define(function(require, exports, module) {
     var GridLayout = require('famous/views/GridLayout');
     var Utility = require('famous/utilities/Utility');
     var PaperButton = require('../src/PaperButton');
+    var PaperSlider = require('../src/PaperSlider');
+    var PaperCheckbox = require('../src/PaperCheckbox');
     var Util = require('../src/Util');
 
     var mainContext = Engine.createContext();
@@ -120,4 +122,39 @@ define(function(require, exports, module) {
     grid.sequenceFrom(buttons);
 
     mainContext.add(modifier).add(grid);
+
+    // slider
+    var slider = new PaperSlider({
+        size: [400, true],
+        classes: ['test'],
+        attributes: {
+            snaps: true,
+            step: 1,
+            max: 5,
+            value: 3
+        }
+    });
+    var sliderModifier = new Modifier({
+        transform: Transform.translate(100, 300)
+    });
+    mainContext.add(sliderModifier).add(slider);
+
+    // checkbox
+    var checkbox = new PaperCheckbox({
+        size: [true, true],
+        checked: false,
+        attributes: {
+            label: 'Notifications'
+        }
+    });
+
+    checkbox.on('tap', function() {
+        checkbox.setChecked(!checkbox.getChecked());
+    });
+
+    var checkboxModifier = new Modifier({
+        transform: Transform.translate(100, 350)
+    });
+
+    mainContext.add(checkboxModifier).add(checkbox);
 });
