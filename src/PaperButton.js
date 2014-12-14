@@ -10,11 +10,9 @@ define(function(require, exports, module) {
     var Util = require('./Util');
 
     function PaperButton(options) {
-        if (options.icon) this._icon = options.icon;
-        if (options.iconPosition) this._iconPosition = options.iconPosition;
-        if (options.contentFlex) this._contentFlex = options.contentFlex;
-
         Surface.apply(this, arguments);
+
+        this.init(options);
     }
 
     PaperButton.prototype = Object.create(Surface.prototype);
@@ -23,21 +21,44 @@ define(function(require, exports, module) {
     PaperButton.prototype.elementType = 'famous-paper-button';
     PaperButton.prototype.elementClass = 'famous-surface';
 
-    PaperButton.prototype.setContent = function setContent(content) {
-        if (this._contentFlex)
-            content = Util.format('<span flex>{0}</span>', content);
+    PaperButton.prototype.init = function init(options) {
+        var items = [];
 
-        if (this._icon) {
-            var coreIcon = Util.format('<core-icon icon="{0}"></core-icon>', this._icon);
-            this.content = this._iconPosition === Util.Position.RIGHT ?
-                           content + coreIcon :
-                           coreIcon + content;
+        if (options.label) {
+            var labelNode;
+            if (typeof options.label === 'object') {
+                labelNode = document.createElement('span');
+                if (options.label.flex)
+                    labelNode.setAttribute('flex', '');
+
+                labelNode.appendChild(document.createTextNode(options.label.text));
+            }
+            else
+                labelNode = document.createTextNode(options.label);
+
+            items.push(labelNode);
         }
-        else
-            this.content = content;
 
-        this._contentDirty = true;
-        return this;
+        var iconNode = document.createElement('core-icon');
+        if (options.icon) {
+            if (typeof options.icon === 'object') {
+                iconNode.setAttribute('icon', options.icon.src);
+                if (options.icon.position === Util.Position.RIGHT)
+                    items.push(iconNode);
+                else
+                    items.splice(0, 0, iconNode);
+            }
+            else {
+                iconNode.setAttribute('icon', options.icon);
+                items.splice(0, 0, iconNode);
+            }
+        }
+
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < items.length; i++)
+            fragment.appendChild(items[i]);
+
+        this.setContent(fragment);
     };
 
     PaperButton.prototype.deploy = function deploy(target) {
