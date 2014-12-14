@@ -13,6 +13,7 @@ define(function(require, exports, module) {
     var PaperButton = require('../src/PaperButton');
     var PaperSlider = require('../src/PaperSlider');
     var PaperCheckbox = require('../src/PaperCheckbox');
+    var PaperDropdownMenu = require('../src/PaperDropdownMenu');
     var Util = require('../src/Util');
 
     var mainContext = Engine.createContext();
@@ -26,6 +27,7 @@ define(function(require, exports, module) {
     var holdSurface = new Surface({ size: [true, true], content: 'hold: 0' });
     var holdPulseSurface = new Surface({ size: [true, true], content: 'hold pulse: 0' });
     var releaseSurface = new Surface({ size: [true, true], content: 'release: 0' });
+    var selectSurface = new Surface({ size: [true, true], content: 'selected: ' });
 
     var layout = new SequentialLayout({
         direction: Utility.Direction.Y
@@ -40,7 +42,8 @@ define(function(require, exports, module) {
         tapSurface,
         holdSurface,
         holdPulseSurface,
-        releaseSurface
+        releaseSurface,
+        selectSurface
     ]);
     mainContext.add(layoutModifier).add(layout);
 
@@ -55,10 +58,14 @@ define(function(require, exports, module) {
 
     var button1 = new PaperButton({
         size: [true, true],
-        content: 'true sized button',
-        contentFlex: false,
-        icon: 'menu',
-        iconPosition: Util.Position.LEFT,
+        label: {
+            text: 'true sized button',
+            flex: true
+        },
+        icon: {
+            src: 'menu',
+            position: Util.Position.LEFT
+        },
         attributes: {
             raised: true
         }
@@ -66,7 +73,7 @@ define(function(require, exports, module) {
 
     var button2 = new PaperButton({
         size: [250, true],
-        content: 'text button',
+        label: 'text button',
         attributes: {
             raised: true
         }
@@ -74,7 +81,7 @@ define(function(require, exports, module) {
 
     var button3 = new PaperButton({
         size: [250, true],
-        content: 'left icon button',
+        label: 'left icon button',
         icon: 'menu',
         attributes: {
             raised: false
@@ -86,10 +93,14 @@ define(function(require, exports, module) {
 
     var button4 = new PaperButton({
         size: [250, true],
-        content: 'right icon button',
-        contentFlex: true,
-        icon: 'menu',
-        iconPosition: Util.Position.RIGHT,
+        label: {
+            text: 'right icon button',
+            flex: true
+        },
+        icon: {
+            src: 'menu',
+            position: Util.Position.RIGHT
+        },
         attributes: {
             raised: true
         },
@@ -157,4 +168,32 @@ define(function(require, exports, module) {
     });
 
     mainContext.add(checkboxModifier).add(checkbox);
+
+    // dropdown menu
+    var dropdownMenu = new PaperDropdownMenu({
+        size: [150, true],
+        attributes: {
+            label: 'Choose Item'
+        },
+        items: [
+            { value: 'item0', text: 'Item 0' },
+            { value: 'item1', text: 'Item 1' },
+            { value: 'item2', text: 'Item 2' }
+        ]
+    });
+
+    dropdownMenu.on('core-select', function(e) {
+        var detail = e.detail;
+        if (!detail.isSelected)
+            return;
+
+        var value = detail.item.getAttribute('value');
+        selectSurface.setContent('selected : ' + value);
+    });
+
+    var dropdownMenuModifier = new Modifier({
+        transform: Transform.translate(600, 280)
+    });
+
+    mainContext.add(dropdownMenuModifier).add(dropdownMenu);
 });
