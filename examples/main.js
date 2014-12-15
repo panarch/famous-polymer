@@ -14,6 +14,7 @@ define(function(require, exports, module) {
     var PaperSlider = require('../src/PaperSlider');
     var PaperCheckbox = require('../src/PaperCheckbox');
     var PaperDropdownMenu = require('../src/PaperDropdownMenu');
+    var CoreSelector = require('../src/CoreSelector');
     var Util = require('../src/Util');
 
     var mainContext = Engine.createContext();
@@ -196,4 +197,32 @@ define(function(require, exports, module) {
     });
 
     mainContext.add(dropdownMenuModifier).add(dropdownMenu);
+
+    // core selector
+    var coreSelector = new CoreSelector({
+        size: [150, true],
+        items: [
+            { value: 'item0', text: 'Item 0' },
+            { value: 'item1', text: 'Item 1' },
+            { value: 'item2', text: 'Item 2' }
+        ],
+        properties: {
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.5)'
+        }
+    });
+
+    coreSelector.on('core-select', function(e) {
+        var detail = e.detail;
+        if (!detail.isSelected)
+            return;
+
+        var value = detail.item.getAttribute('value');
+        selectSurface.setContent('selected : ' + value);
+    });
+
+    var coreSelectorModifier = new Modifier({
+        transform: Transform.translate(720, 280)
+    });
+
+    mainContext.add(coreSelectorModifier).add(coreSelector);
 });
