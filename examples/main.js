@@ -176,10 +176,17 @@ define(function(require, exports, module) {
         attributes: {
             label: 'Choose Item'
         },
+        dropdownHeight: 150,
         items: [
             { value: 'item0', text: 'Item 0' },
             { value: 'item1', text: 'Item 1' },
-            { value: 'item2', text: 'Item 2' }
+            { value: 'item2', text: 'Item 2' },
+            { value: 'item3', text: 'Item 3' },
+            { value: 'item4', text: 'Item 4' },
+            { value: 'item5', text: 'Item 5' },
+            { value: 'item6', text: 'Item 6' },
+            { value: 'item7', text: 'Item 7' },
+            { value: 'item8', text: 'Item 8' }
         ]
     });
 

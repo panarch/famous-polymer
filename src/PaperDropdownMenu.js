@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     function PaperDropdownMenu(options) {
         Surface.apply(this, arguments);
 
-        if (options.items) this.setItems(options.items);
+        if (options.items) this.setItems(options);
     }
 
     PaperDropdownMenu.prototype = Object.create(Surface.prototype);
@@ -20,10 +20,15 @@ define(function(require, exports, module) {
     PaperDropdownMenu.prototype.elementType = 'famous-paper-dropdown-menu';
     PaperDropdownMenu.prototype.elementClass = 'famous-surface';
 
-    PaperDropdownMenu.prototype.setItems = function setItems(items) {
+    PaperDropdownMenu.prototype.setItems = function setItems(options) {
+        var items = options.items;
+
         var paperDropdown = document.createElement('paper-dropdown');
         var coreMenu = document.createElement('core-menu');
         paperDropdown.classList.add('dropdown');
+        if (options.dropdownHeight)
+            paperDropdown.style.height = options.dropdownHeight + 'px';
+
         coreMenu.classList.add('menu');
 
         for (var i = 0; i < items.length; i++) {
