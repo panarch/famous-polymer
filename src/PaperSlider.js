@@ -15,11 +15,13 @@ define(function(require, exports, module) {
     PaperSlider.prototype = Object.create(Surface.prototype);
     PaperSlider.prototype.constructor = PaperSlider;
 
-    PaperSlider.prototype.elementType = 'famous-paper-slider';
+    PaperSlider.prototype.elementType = 'paper-slider';
     PaperSlider.prototype.elementClass = 'famous-surface';
 
     PaperSlider.prototype.deploy = function deploy(target) {
         Surface.prototype.deploy.apply(this, arguments);
+
+        Polymer.addEventListener(this._currentTarget, 'tap', function() {});
     };
 
     module.exports = PaperSlider;

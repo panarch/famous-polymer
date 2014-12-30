@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     CoreSelector.prototype = Object.create(Surface.prototype);
     CoreSelector.prototype.constructor = CoreSelector;
 
-    CoreSelector.prototype.elementType = 'famous-core-selector';
+    CoreSelector.prototype.elementType = 'core-selector';
     CoreSelector.prototype.elementClass = 'famous-surface';
 
     CoreSelector.prototype.setItems = function setItems(items) {
@@ -39,6 +39,8 @@ define(function(require, exports, module) {
 
     CoreSelector.prototype.deploy = function deploy(target) {
         Surface.prototype.deploy.apply(this, arguments);
+
+        Polymer.addEventListener(this._currentTarget, 'tap', function() {});
     };
 
     module.exports = CoreSelector;

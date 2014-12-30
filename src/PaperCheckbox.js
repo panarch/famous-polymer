@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     PaperCheckbox.prototype = Object.create(Surface.prototype);
     PaperCheckbox.prototype.constructor = PaperCheckbox;
 
-    PaperCheckbox.prototype.elementType = 'famous-paper-checkbox';
+    PaperCheckbox.prototype.elementType = 'paper-checkbox';
     PaperCheckbox.prototype.elementClass = 'famous-surface';
 
     PaperCheckbox.prototype.setChecked = function setChecked(checked) {
@@ -31,6 +31,8 @@ define(function(require, exports, module) {
 
     PaperCheckbox.prototype.deploy = function deploy(target) {
         Surface.prototype.deploy.apply(this, arguments);
+
+        Polymer.addEventListener(this._currentTarget, 'tap', function() {});
     };
 
     module.exports = PaperCheckbox;

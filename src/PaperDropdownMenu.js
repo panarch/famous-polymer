@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     PaperDropdownMenu.prototype = Object.create(Surface.prototype);
     PaperDropdownMenu.prototype.constructor = PaperDropdownMenu;
 
-    PaperDropdownMenu.prototype.elementType = 'famous-paper-dropdown-menu';
+    PaperDropdownMenu.prototype.elementType = 'paper-dropdown-menu';
     PaperDropdownMenu.prototype.elementClass = 'famous-surface';
 
     PaperDropdownMenu.prototype.setItems = function setItems(options) {
@@ -48,6 +48,8 @@ define(function(require, exports, module) {
 
     PaperDropdownMenu.prototype.deploy = function deploy(target) {
         Surface.prototype.deploy.apply(this, arguments);
+
+        Polymer.addEventListener(this._currentTarget, 'tap', function() {});
     };
 
     module.exports = PaperDropdownMenu;

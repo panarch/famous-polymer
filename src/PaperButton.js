@@ -18,7 +18,7 @@ define(function(require, exports, module) {
     PaperButton.prototype = Object.create(Surface.prototype);
     PaperButton.prototype.constructor = PaperButton;
 
-    PaperButton.prototype.elementType = 'famous-paper-button';
+    PaperButton.prototype.elementType = 'paper-button';
     PaperButton.prototype.elementClass = 'famous-surface';
 
     PaperButton.prototype.init = function init(options) {
@@ -63,6 +63,11 @@ define(function(require, exports, module) {
 
     PaperButton.prototype.deploy = function deploy(target) {
         Surface.prototype.deploy.apply(this, arguments);
+
+        Polymer.addEventListener(this._currentTarget, 'tap', function() {});
+        Polymer.addEventListener(this._currentTarget, 'hold', function() {});
+        Polymer.addEventListener(this._currentTarget, 'holdpulse', function() {});
+        Polymer.addEventListener(this._currentTarget, 'release', function() {});
     };
 
     module.exports = PaperButton;
