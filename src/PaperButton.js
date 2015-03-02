@@ -31,10 +31,13 @@ define(function(require, exports, module) {
                 if (options.label.flex)
                     labelNode.setAttribute('flex', '');
 
-                labelNode.appendChild(document.createTextNode(options.label.text));
+                this._labelTextNode = document.createTextNode(options.label.text);
+                labelNode.appendChild(this._labelTextNode);
             }
-            else
-                labelNode = document.createTextNode(options.label);
+            else {
+                this._labelTextNode = document.createTextNode(options.label);
+                labelNode = this._labelTextNode;
+            }
 
             items.push(labelNode);
         }
@@ -59,6 +62,11 @@ define(function(require, exports, module) {
             fragment.appendChild(items[i]);
 
         this.setContent(fragment);
+    };
+
+    PaperButton.prototype.setLabel = function setLabel(text) {
+        if (this._labelTextNode)
+            this._labelTextNode.nodeValue = text;
     };
 
     PaperButton.prototype.deploy = function deploy(target) {
