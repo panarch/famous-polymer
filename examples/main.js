@@ -154,11 +154,12 @@ define(function(require, exports, module) {
     // checkbox
     var checkbox = new PaperCheckbox({
         size: [true, true],
-        checked: false,
         attributes: {
             label: 'Notifications'
         }
     });
+
+    checkbox.setChecked(true);
 
     checkbox.on('tap', function() {
         checkbox.setChecked(!checkbox.getChecked());
