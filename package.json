@@ -6,7 +6,15 @@
   "directories": {
     "example": "examples"
   },
+  "browserify": {
+    "transform": [
+      "cssify"
+    ]
+  },
   "scripts": {
+    "lint:eslint": "eslint paper/ demo/index.js",
+    "lint:jscs": "jscs paper/ demo/index.js",
+    "lint": "npm run lint:eslint && npm run lint:jscs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,6 +25,12 @@
   "author": "Taehoon Moon",
   "license": "MIT",
   "devDependencies": {
-    "famous": "^0.3.5"
+    "eslint": "^0.17.1",
+    "famous": "^0.3.5",
+    "jscs": "^1.11.3"
+  },
+  "dependencies": {
+    "cssify": "^0.7.0",
+    "material-design-icons": "^1.0.1"
   }
 }

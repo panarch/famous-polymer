@@ -4,3 +4,6 @@
 bower_components
 node_modules
 src_deprecated
+npm-debug.log
+demo/bundle.js
+demo/.bundle.js
