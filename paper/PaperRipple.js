@@ -71,8 +71,8 @@ function _pop() {
 
 function _onClick(e) {
     var modifier = _pop.call(this);
-    var x = e.offsetX;
-    var y = e.offsetY;
+    var x = (e.offsetX || e.layerX);
+    var y = (e.offsetY || e.layerY);
     var d = this._ripple && this._ripple.duration ?
             this._ripple.duration :
             PaperRipple.DURATION;
