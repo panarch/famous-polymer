@@ -1,7 +1,7 @@
 {
   "name": "famous-polymer",
   "version": "0.1.0",
-  "description": "Famo.us meets Polymer",
+  "description": "Famo.us meets material design",
   "main": "index.js",
   "directories": {
     "example": "examples"
@@ -27,10 +27,10 @@
   "devDependencies": {
     "eslint": "^0.17.1",
     "famous": "^0.3.5",
-    "jscs": "^1.11.3"
+    "jscs": "^1.11.3",
+    "material-design-icons": "^1.0.1"
   },
   "dependencies": {
-    "cssify": "^0.7.0",
-    "material-design-icons": "^1.0.1"
+    "cssify": "^0.7.0"
   }
 }

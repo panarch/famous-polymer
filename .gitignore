@@ -3,7 +3,7 @@
 **.swn
 bower_components
 node_modules
-src_deprecated
 npm-debug.log
+deprecated
 demo/bundle.js
 demo/.bundle.js

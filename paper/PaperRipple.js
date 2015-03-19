@@ -12,7 +12,7 @@ function PaperRipple(options) {
     ContainerSurface.apply(this, arguments);
     this._waitings = [];
 
-    if (options.ripple)
+    if (options && options.ripple)
         this._ripple = options.ripple;
 
     this.setProperties({
