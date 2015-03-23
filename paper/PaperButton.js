@@ -16,6 +16,9 @@ function PaperButton(options) {
     ContainerSurface.apply(this, arguments);
 
     this.options = {
+        flat: false,
+        disabled: false,
+        selected: false,
         label: {
             size: [true, 36],
             properties: {
@@ -29,13 +32,25 @@ function PaperButton(options) {
             size: [36, 36]
         },
         ripple: {
+        },
+        properties: {
+            backgroundColor: 'transparent',
+            color: 'black'
+        },
+        disabledProperties: {
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            color: '#8d8d8d'
+        },
+        selectedProperties: {
+            backgroundColor: '#639dee',// rgba(30, 30, 190, 0.2)',
+            color: 'white'
         }
     };
 
     if (options)
         OptionsManager.patch(this.options, options);
 
-    if (!options.flat)
+    if (!this.options.flat)
         this.addClass('paper-shadow').addClass('paper-border');
 
     var w = 0;
@@ -63,6 +78,18 @@ function PaperButton(options) {
         this.options.label.size[0] = undefined;
         this.options.label.properties.textAlign = 'center';
     }
+
+    var rippleModifier = new Modifier({
+        transform: Transform.translate(0, 0, 0.01)
+    });
+
+    this._ripple = new PaperRipple({ ripple: this.options.ripple });
+
+    if (this.options.disabled)
+        this.setDisabled(true);
+
+    if (this.options.selected)
+        this.setSelected(true);
 
     var layoutModifier = new Modifier({
         size: [w, h],
@@ -92,16 +119,36 @@ function PaperButton(options) {
     layout.sequenceFrom(items);
 
     this.add(layoutModifier).add(layout);
-
-    var rippleModifier = new Modifier({
-        transform: Transform.translate(0, 0, 0.01)
-    });
-
-    var ripple = new PaperRipple({ ripple: this.options.ripple });
-    this.add(rippleModifier).add(ripple);
+    this.add(rippleModifier).add(this._ripple);
 }
 
 PaperButton.prototype = Object.create(ContainerSurface.prototype);
 PaperButton.prototype.constructor = PaperRipple;
+
+PaperButton.prototype.setDisabled = function setDisabled(disabled) {
+    this.options.disabled = disabled;
+    this._ripple.setDisabled(disabled);
+    if (disabled) {
+        this.setProperties(this.options.disabledProperties);
+        this.removeClass('paper-shadow');
+    }
+    else {
+        this.setProperties(this.options.properties);
+        if (!this.options.flat)
+            this.addClass('paper-shadow');
+    }
+};
+
+PaperButton.prototype.getSelected = function getSelected() {
+    return this.options.selected;
+};
+
+PaperButton.prototype.setSelected = function setSelected(selected) {
+    this.options.selected = selected;
+    if (selected)
+        this.setProperties(this.options.selectedProperties);
+    else
+        this.setProperties(this.options.properties);
+};
 
 module.exports = PaperButton;

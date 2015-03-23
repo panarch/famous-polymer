@@ -4,6 +4,7 @@ require('../styles');
 var Surface = require('famous/core/Surface');
 var Transform = require('famous/core/Transform');
 var Modifier = require('famous/core/Modifier');
+var OptionsManager = require('famous/core/OptionsManager');
 var StateModifier = require('famous/modifiers/StateModifier');
 var ContainerSurface = require('famous/surfaces/ContainerSurface');
 var Easing = require('famous/transitions/Easing');
@@ -12,13 +13,26 @@ function PaperRipple(options) {
     ContainerSurface.apply(this, arguments);
     this._waitings = [];
 
-    if (options && options.ripple)
-        this._ripple = options.ripple;
+    this.options = {
+        disabled: false,
+        ripple: {
+            size: [360, 360],
+            duration: 500,
+            properties: {
+                backgroundColor: 'rgba(0, 0, 0, 0.2)'
+            }
+        },
+        properties: {
+            overflow: 'hidden',
+            cursor: 'pointer'
+        }
+    };
 
-    this.setProperties({
-        overflow: 'hidden',
-        cursor: 'pointer'
-    });
+    if (options)
+        OptionsManager.patch(this.options, options);
+
+    this.setProperties(this.options.properties);
+    this._ripple = this.options.ripple;
 
     var eventModifier = new Modifier({
         transform: Transform.translate(0, 0, 0.01)
@@ -38,20 +52,13 @@ function PaperRipple(options) {
 PaperRipple.prototype = Object.create(ContainerSurface.prototype);
 PaperRipple.prototype.constructor = PaperRipple;
 
-PaperRipple.SIZE = [360, 360];
-PaperRipple.DURATION = 500;
-
 function _pop() {
     if (this._waitings.length > 0)
         return this._waitings.splice(0, 1)[0];
 
-    var size = this._ripple && this._ripple.size ?
-            this._ripple.size :
-            PaperRipple.SIZE;
-
     // create new one
     var modifier = new StateModifier({
-        size: size,
+        size: this._ripple.size,
         origin: [0.5, 0.5],
         align: [0, 0],
         transform: Transform.scale(0, 0),
@@ -62,20 +69,24 @@ function _pop() {
         classes: ['paper-ripple']
     });
 
-    if (this._ripple && this._ripple.properties)
-        ripple.setProperties(this._ripple.properties);
+    ripple.setProperties(this._ripple.properties);
 
     this.add(modifier).add(ripple);
-    return modifier;
+    return {
+        modifier: modifier,
+        ripple: ripple
+    };
 }
 
 function _onClick(e) {
-    var modifier = _pop.call(this);
+    if (this.options.disabled)
+        return;
+
+    var item = _pop.call(this);
+    var modifier = item.modifier;
     var x = (e.offsetX || e.layerX);
     var y = (e.offsetY || e.layerY);
-    var d = this._ripple && this._ripple.duration ?
-            this._ripple.duration :
-            PaperRipple.DURATION;
+    var d = this._ripple.duration;
 
     modifier.setTransform(
         Transform.thenMove(Transform.scale(0, 0), [x, y, 0]),
@@ -98,8 +109,12 @@ function _onClick(e) {
     function callback2() {
         modifier.setOpacity(1, { duration: 1 });
         modifier.setTransform(Transform.scale(0, 0), { duration: 1 });
-        this._waitings.push(modifier);
+        this._waitings.push(item);
     }
 }
+
+PaperRipple.prototype.setDisabled = function setDisabled(disabled) {
+    this.options.disabled = disabled;
+};
 
 module.exports = PaperRipple;
