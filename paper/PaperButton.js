@@ -107,13 +107,13 @@ function PaperButton(options) {
     var items = [];
 
     if (this.options.icon.content) {
-        var imageSurface = new ImageSurface(this.options.icon);
-        items.push(imageSurface);
+        this._imageSurface = new ImageSurface(this.options.icon);
+        items.push(this._imageSurface);
     }
 
     if (this.options.label.content) {
-        var labelSurface = new Surface(this.options.label);
-        items.push(labelSurface);
+        this._labelSurface = new Surface(this.options.label);
+        items.push(this._labelSurface);
     }
 
     layout.sequenceFrom(items);
@@ -149,6 +149,14 @@ PaperButton.prototype.setSelected = function setSelected(selected) {
         this.setProperties(this.options.selectedProperties);
     else
         this.setProperties(this.options.properties);
+};
+
+PaperButton.prototype.setLabelContent = function setLabelContent(content) {
+    if (!this._labelSurface)
+        return;
+
+    this.options.label.content = content;
+    this._labelSurface.setContent(content);
 };
 
 module.exports = PaperButton;
