@@ -5,6 +5,7 @@ var Modifier = require('famous/core/Modifier');
 var Transform = require('famous/core/Transform');
 var PaperRipple = require('../paper/PaperRipple');
 var PaperButton = require('../paper/PaperButton');
+var PaperCheckbox = require('../paper/PaperCheckbox');
 
 var _mainContext = Engine.createContext();
 
@@ -44,5 +45,15 @@ var _button = new PaperButton({
     }
 });
 
+var _checkboxModifier = new Modifier({
+    size: [50, 50],
+    transform: Transform.translate(50, 290)
+});
+
+var _checkbox = new PaperCheckbox({
+    checked: false
+});
+
 _mainContext.add(_rippleModifier).add(_ripple);
 _mainContext.add(_buttonModifier).add(_button);
+_mainContext.add(_checkboxModifier).add(_checkbox);
