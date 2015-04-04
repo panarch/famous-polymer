@@ -15,6 +15,7 @@ function PaperRipple(options) {
 
     this.options = {
         disabled: false,
+        recenteringTouch: false,
         ripple: {
             size: [360, 360],
             duration: 500,
@@ -84,19 +85,31 @@ function _onClick(e) {
 
     var item = _pop.call(this);
     var modifier = item.modifier;
-    var x = (e.offsetX || e.layerX);
-    var y = (e.offsetY || e.layerY);
+
+    var beginX = (e.offsetX || e.layerX);
+    var beginY = (e.offsetY || e.layerY);
+    var endX;
+    var endY;
+    if (this.options.recenteringTouch) {
+        var size = this.getSize();
+        endX = size[0] / 2;
+        endY = size[1] / 2;
+    }
+    else {
+        endX = beginX;
+        endY = beginY;
+    }
     var d = this._ripple.duration;
 
     modifier.setTransform(
-        Transform.thenMove(Transform.scale(0, 0), [x, y, 0]),
+        Transform.thenMove(Transform.scale(0, 0), [beginX, beginY, 0]),
         { duration: 1 },
         callback.bind(this)
     );
 
     function callback() {
         modifier.setTransform(
-            Transform.thenMove(Transform.scale(1, 1), [x, y, 0]),
+            Transform.thenMove(Transform.scale(1, 1), [endX, endY, 0]),
             { duration: d, curve: Easing.outQuad }
         );
         modifier.setOpacity(
