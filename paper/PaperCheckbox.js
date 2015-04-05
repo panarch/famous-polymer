@@ -27,9 +27,8 @@ function PaperCheckbox(options) {
             size: [true, 36],
             properties: {
                 textAlign: 'left',
-                lineHeight: '37px',
-                fontSize: '18px',
-                padding: '0 5px 0 5px'
+                lineHeight: '36px',
+                padding: '0 5px 0 0px'
             }
         }
     };
@@ -102,7 +101,7 @@ function PaperCheckbox(options) {
         });
 
         var checkboxContainer = new ContainerSurface({
-            size: [50, undefined]
+            size: [47, undefined]
         });
         checkboxContainer.add(this._checkboxShapeModifier).add(this._checkboxShape);
         checkboxContainer.add(this._checkmarkModifier).add(this._checkmark);
