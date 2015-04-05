@@ -7,6 +7,8 @@ var Modifier = require('famous/core/Modifier');
 var OptionsManager = require('famous/core/OptionsManager');
 var StateModifier = require('famous/modifiers/StateModifier');
 var ContainerSurface = require('famous/surfaces/ContainerSurface');
+var SequentialLayout = require('famous/views/SequentialLayout');
+var Utility = require('famous/utilities/Utility');
 var Easing = require('famous/transitions/Easing');
 
 var PaperRipple = require('./PaperRipple');
@@ -20,7 +22,16 @@ function PaperCheckbox(options) {
     this.options = {
         disabled: false,
         checked: false,
-        color: '#009688'
+        color: '#009688',
+        label: {
+            size: [true, 36],
+            properties: {
+                textAlign: 'left',
+                lineHeight: '37px',
+                fontSize: '18px',
+                padding: '0 5px 0 5px'
+            }
+        }
     };
 
     if (options)
@@ -85,9 +96,35 @@ function PaperCheckbox(options) {
     if (this.options.disabled)
         this.setDisabled(true);
 
-    this.add(this._checkboxShapeModifier).add(this._checkboxShape);
-    this.add(this._checkmarkModifier).add(this._checkmark);
-    this.add(rippleModifier).add(this._ripple);
+    if (this.options.label.content) {
+        var layout = new SequentialLayout({
+            direction: Utility.Direction.X
+        });
+
+        var checkboxContainer = new ContainerSurface({
+            size: [50, undefined]
+        });
+        checkboxContainer.add(this._checkboxShapeModifier).add(this._checkboxShape);
+        checkboxContainer.add(this._checkmarkModifier).add(this._checkmark);
+        checkboxContainer.add(this._rippleModifier).add(this._ripple);
+
+        var labelContainer = new ContainerSurface();
+        var labelModifier = new Modifier({
+            size: this.options.label.size,
+            origin: [0, 0.5],
+            align: [0, 0.5]
+        });
+        this._labelSurface = new Surface(this.options.label);
+
+        labelContainer.add(labelModifier).add(this._labelSurface);
+        layout.sequenceFrom([checkboxContainer, labelContainer]);
+        this.add(layout);
+    }
+    else {
+        this.add(this._checkboxShapeModifier).add(this._checkboxShape);
+        this.add(this._checkmarkModifier).add(this._checkmark);
+        this.add(rippleModifier).add(this._ripple);
+    }
 
     this.on('click', _onClick.bind(this));
 }

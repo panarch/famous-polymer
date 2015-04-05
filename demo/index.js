@@ -46,14 +46,28 @@ var _button = new PaperButton({
 });
 
 var _checkboxModifier = new Modifier({
-    size: [50, 50],
+    size: [150, 50],
     transform: Transform.translate(50, 290)
 });
 
 var _checkbox = new PaperCheckbox({
-    checked: false
+    checked: false,
+    label: {
+        content: 'Check me!'
+    }
+});
+
+var _checkboxModifier2 = new Modifier({
+    size: [50, 50],
+    transform: Transform.translate(50, 340)
+});
+
+var _checkbox2 = new PaperCheckbox({
+    checked: false,
+    color: '#4283f4'
 });
 
 _mainContext.add(_rippleModifier).add(_ripple);
 _mainContext.add(_buttonModifier).add(_button);
 _mainContext.add(_checkboxModifier).add(_checkbox);
+_mainContext.add(_checkboxModifier2).add(_checkbox2);
