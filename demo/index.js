@@ -3,9 +3,11 @@
 var Engine = require('famous/core/Engine');
 var Modifier = require('famous/core/Modifier');
 var Transform = require('famous/core/Transform');
+var SequentialLayout = require('famous/views/SequentialLayout');
 var PaperRipple = require('../paper/PaperRipple');
 var PaperButton = require('../paper/PaperButton');
 var PaperCheckbox = require('../paper/PaperCheckbox');
+var PaperRadioButton = require('../paper/PaperRadioButton');
 
 var _mainContext = Engine.createContext();
 
@@ -58,7 +60,7 @@ var _checkbox = new PaperCheckbox({
 });
 
 var _checkboxModifier2 = new Modifier({
-    size: [50, 50],
+    size: [47, 47],
     transform: Transform.translate(50, 340)
 });
 
@@ -67,7 +69,38 @@ var _checkbox2 = new PaperCheckbox({
     color: '#4283f4'
 });
 
+var _radioGroupModifier = new Modifier({
+    size: [150, 100],
+    transform: Transform.translate(50, 390)
+});
+
+var _radioGroupLayout = new SequentialLayout();
+
+var _radioButton = new PaperRadioButton({
+    size: [150, 47],
+    checked: true,
+    label: {
+        content: 'Select me!'
+    }
+});
+
+var _radioButton2 = new PaperRadioButton({
+    size: [47, 47],
+    checked: false
+});
+
+_radioButton.on('change', function(checked) {
+    _radioButton2.setChecked(false);
+});
+
+_radioButton2.on('change', function(checked) {
+    _radioButton.setChecked(false);
+});
+
+_radioGroupLayout.sequenceFrom([_radioButton, _radioButton2]);
+
 _mainContext.add(_rippleModifier).add(_ripple);
 _mainContext.add(_buttonModifier).add(_button);
 _mainContext.add(_checkboxModifier).add(_checkbox);
 _mainContext.add(_checkboxModifier2).add(_checkbox2);
+_mainContext.add(_radioGroupModifier).add(_radioGroupLayout);
