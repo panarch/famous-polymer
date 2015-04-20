@@ -151,6 +151,13 @@ PaperButton.prototype.setSelected = function setSelected(selected) {
         this.setProperties(this.options.properties);
 };
 
+PaperButton.prototype.getLabelContent = function getLabelContent() {
+    if (!this._labelSurface)
+        return undefined;
+
+    return this.options.label.content;
+};
+
 PaperButton.prototype.setLabelContent = function setLabelContent(content) {
     if (!this._labelSurface)
         return;
