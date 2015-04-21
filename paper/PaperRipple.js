@@ -80,8 +80,10 @@ function _pop() {
 }
 
 function _onClick(e) {
-    if (this.options.disabled)
-        return;
+    if (this.options.disabled) {
+        e.stopPropagation();
+        return false;
+    }
 
     var item = _pop.call(this);
     var modifier = item.modifier;
