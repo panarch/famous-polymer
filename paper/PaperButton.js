@@ -38,7 +38,7 @@ function PaperButton(options) {
             color: 'black'
         },
         disabledProperties: {
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
             color: '#8d8d8d'
         },
         selectedProperties: {
