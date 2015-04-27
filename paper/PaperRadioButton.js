@@ -103,7 +103,17 @@ function PaperRadioButton(options) {
         radioContainer.add(this._innerRadioModifier).add(this._innerRadio);
         radioContainer.add(this._rippleModifier).add(this._ripple);
 
-        var labelContainer = new ContainerSurface();
+        if (this.options.size && (typeof this.options.size[0]) === 'number') {
+            this.options.label.size = [
+                this.options.size[0] - 47,
+                this.options.label.size[1]
+            ];
+        }
+
+        var labelContainer = new ContainerSurface({
+            size: [this.options.label.size[0], undefined]
+        });
+
         var labelModifier = new Modifier({
             size: this.options.label.size,
             origin: [0, 0.5],
