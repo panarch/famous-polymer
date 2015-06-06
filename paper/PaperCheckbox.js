@@ -13,8 +13,8 @@ var Easing = require('famous/transitions/Easing');
 
 var PaperRipple = require('./PaperRipple');
 
-var CHECKBOX_ACTIVE = Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 0]);
-var CHECKBOX_INACTIVE = Transform.thenScale(Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 0]), [0, 0, 1]);
+var CHECKBOX_ACTIVE = Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 10]);
+var CHECKBOX_INACTIVE = Transform.thenScale(Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 10]), [0, 0, 1]);
 
 function PaperCheckbox(options) {
     ContainerSurface.apply(this, arguments);
@@ -78,7 +78,7 @@ function PaperCheckbox(options) {
     var rippleModifier = new Modifier({
         origin: [0, 0],
         align: [0, 0],
-        transform: Transform.translate(0, 0, 0.01)
+        transform: Transform.translate(0, 0, 11)
     });
 
     this._ripple = new PaperRipple({

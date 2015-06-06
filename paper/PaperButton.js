@@ -80,7 +80,7 @@ function PaperButton(options) {
     }
 
     var rippleModifier = new Modifier({
-        transform: Transform.translate(0, 0, 0.01)
+        transform: Transform.translate(0, 0, 11)
     });
 
     this._ripple = new PaperRipple({ ripple: this.options.ripple });
@@ -97,8 +97,11 @@ function PaperButton(options) {
         align: [0, 0.5]
     });
 
-    if (this.options.icon.content)
-        layoutModifier.transformFrom(Transform.translate(5, 0));
+    var layoutTransform = this.options.icon.content ?
+                        Transform.translate(5, 0, 10) :
+                        Transform.translate(0, 0, 10);
+
+    layoutModifier.transformFrom(layoutTransform);
 
     var layout = new SequentialLayout({
         direction: Utility.Direction.X
