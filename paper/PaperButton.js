@@ -1,14 +1,14 @@
 // @author Taehoon Moon
 require('../styles');
 
-var Surface = require('famous/core/Surface');
-var Transform = require('famous/core/Transform');
-var Modifier = require('famous/core/Modifier');
-var OptionsManager = require('famous/core/OptionsManager');
-var ImageSurface = require('famous/surfaces/ImageSurface');
-var ContainerSurface = require('famous/surfaces/ContainerSurface');
-var SequentialLayout = require('famous/views/SequentialLayout');
-var Utility = require('famous/utilities/Utility');
+var Surface = require('famous-mig/core/Surface');
+var Transform = require('famous-mig/core/Transform');
+var Modifier = require('famous-mig/core/Modifier');
+var OptionsManager = require('famous-mig/core/OptionsManager');
+var ImageSurface = require('famous-mig/surfaces/ImageSurface');
+var ContainerSurface = require('famous-mig/surfaces/ContainerSurface');
+var SequentialLayout = require('famous-mig/views/SequentialLayout');
+var Utility = require('famous-mig/utilities/Utility');
 
 var PaperRipple = require('./PaperRipple');
 
@@ -20,7 +20,7 @@ function PaperButton(options) {
         disabled: false,
         selected: false,
         label: {
-            size: [true, 36],
+            size: [undefined, 36],
             properties: {
                 textAlign: 'left',
                 lineHeight: '38px',
@@ -53,28 +53,14 @@ function PaperButton(options) {
     if (!this.options.flat)
         this.addClass('paper-shadow').addClass('paper-border');
 
-    var w = 0;
     var h;
-    if (this.options.label.content) {
-        if (typeof this.options.label.size[0] === 'number')
-            w += this.options.label.size[0];
-        else
-            w = this.options.label.size[0];
-
+    if (this.options.label.content)
         h = this.options.label.size[1];
-    }
 
     if (this.options.icon.content) {
-        if (typeof this.options.icon.size[0] === 'number')
-            w += this.options.icon.size[0];
-        else
-            w = this.options.icon.size[0];
-
-        if (this.options.icon.size[1] > h)
-            h = this.options.icon.size[1];
+        if (this.options.icon.size[1] > h) h = this.options.icon.size[1];
     }
     else {
-        w = undefined;
         this.options.label.size[0] = undefined;
         this.options.label.properties.textAlign = 'center';
     }
@@ -92,7 +78,7 @@ function PaperButton(options) {
         this.setSelected(true);
 
     var layoutModifier = new Modifier({
-        size: [w, h],
+        size: [undefined, h],
         origin: [0, 0.5],
         align: [0, 0.5]
     });

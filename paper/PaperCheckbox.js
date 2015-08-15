@@ -1,20 +1,20 @@
 // @author Taehoon Moon
 require('../styles');
 
-var Surface = require('famous/core/Surface');
-var Transform = require('famous/core/Transform');
-var Modifier = require('famous/core/Modifier');
-var OptionsManager = require('famous/core/OptionsManager');
-var StateModifier = require('famous/modifiers/StateModifier');
-var ContainerSurface = require('famous/surfaces/ContainerSurface');
-var SequentialLayout = require('famous/views/SequentialLayout');
-var Utility = require('famous/utilities/Utility');
-var Easing = require('famous/transitions/Easing');
+var Surface = require('famous-mig/core/Surface');
+var Transform = require('famous-mig/core/Transform');
+var Modifier = require('famous-mig/core/Modifier');
+var OptionsManager = require('famous-mig/core/OptionsManager');
+var StateModifier = require('famous-mig/modifiers/StateModifier');
+var ContainerSurface = require('famous-mig/surfaces/ContainerSurface');
+var SequentialLayout = require('famous-mig/views/SequentialLayout');
+var Utility = require('famous-mig/utilities/Utility');
+var Easing = require('famous-mig/transitions/Easing');
 
 var PaperRipple = require('./PaperRipple');
 
-var CHECKBOX_ACTIVE = Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 10]);
-var CHECKBOX_INACTIVE = Transform.thenScale(Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 10]), [0, 0, 1]);
+var CHECKBOX_TRANSFORM = Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 10]);
+//var CHECKBOX_INACTIVE = Transform.thenScale(Transform.thenMove(Transform.rotateZ(Math.PI / 4), [0, -2, 10]), [0, 0, 1]);
 
 function PaperCheckbox(options) {
     ContainerSurface.apply(this, arguments);
@@ -24,7 +24,7 @@ function PaperCheckbox(options) {
         checked: false,
         color: '#009688',
         label: {
-            size: [true, 36],
+            size: [undefined, 36],
             properties: {
                 textAlign: 'left',
                 lineHeight: '36px',
@@ -60,9 +60,7 @@ function PaperCheckbox(options) {
         origin: [0.5, 0.5],
         align: [0.5, 0.5],
         size: [7, 12],
-        transform: (this.options.checked ?
-                    CHECKBOX_ACTIVE :
-                    CHECKBOX_INACTIVE)
+        transform: CHECKBOX_TRANSFORM
     });
     this._checkmark = new Surface({
         properties: {
@@ -105,7 +103,7 @@ function PaperCheckbox(options) {
         });
         checkboxContainer.add(this._checkboxShapeModifier).add(this._checkboxShape);
         checkboxContainer.add(this._checkmarkModifier).add(this._checkmark);
-        checkboxContainer.add(this._rippleModifier).add(this._ripple);
+        checkboxContainer.add(rippleModifier).add(this._ripple);
 
         var labelContainer = new ContainerSurface();
         var labelModifier = new Modifier({
@@ -156,8 +154,8 @@ PaperCheckbox.prototype.setChecked = function setChecked(checked) {
             border: 'solid 2px ' + this.options.color,
             backgroundColor: this.options.color
         });
-        this._checkmarkModifier.setTransform(
-            CHECKBOX_ACTIVE,
+        this._checkmarkModifier.setOpacity(
+            1,
             { duration: 180, curve: Easing.outQuad }
         );
     }
@@ -166,8 +164,8 @@ PaperCheckbox.prototype.setChecked = function setChecked(checked) {
             border: 'solid 2px #5a5a5a',
             backgroundColor: 'transparent'
         });
-        this._checkmarkModifier.setTransform(
-            CHECKBOX_INACTIVE,
+        this._checkmarkModifier.setOpacity(
+            0,
             { duration: 180, curve: Easing.outQuad }
         );
     }

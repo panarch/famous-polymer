@@ -1,15 +1,15 @@
 // @author Taehoon Moon
 require('../styles');
 
-var Surface = require('famous/core/Surface');
-var Transform = require('famous/core/Transform');
-var Modifier = require('famous/core/Modifier');
-var OptionsManager = require('famous/core/OptionsManager');
-var StateModifier = require('famous/modifiers/StateModifier');
-var ContainerSurface = require('famous/surfaces/ContainerSurface');
-var SequentialLayout = require('famous/views/SequentialLayout');
-var Utility = require('famous/utilities/Utility');
-var Easing = require('famous/transitions/Easing');
+var Surface = require('famous-mig/core/Surface');
+var Transform = require('famous-mig/core/Transform');
+var Modifier = require('famous-mig/core/Modifier');
+var OptionsManager = require('famous-mig/core/OptionsManager');
+var StateModifier = require('famous-mig/modifiers/StateModifier');
+var ContainerSurface = require('famous-mig/surfaces/ContainerSurface');
+var SequentialLayout = require('famous-mig/views/SequentialLayout');
+var Utility = require('famous-mig/utilities/Utility');
+var Easing = require('famous-mig/transitions/Easing');
 
 var PaperRipple = require('./PaperRipple');
 
@@ -54,9 +54,9 @@ function PaperRadioButton(options) {
         });
 
     this._innerRadioModifier = new StateModifier({
+        size: [8, 8],
         origin: [0.5, 0.5],
         align: [0.5, 0.5],
-        size: [8, 8],
         transform: (this.options.checked ?
                     Transform.identity :
                     Transform.scale(0, 0))
@@ -73,7 +73,7 @@ function PaperRadioButton(options) {
     var rippleModifier = new Modifier({
         origin: [0, 0],
         align: [0, 0],
-        transform: Transform.translate(0, 0, 0.01)
+        transform: Transform.translate(0, 0, 5)
     });
 
     this._ripple = new PaperRipple({
@@ -101,7 +101,7 @@ function PaperRadioButton(options) {
 
         radioContainer.add(this._outerRadioModifier).add(this._outerRadio);
         radioContainer.add(this._innerRadioModifier).add(this._innerRadio);
-        radioContainer.add(this._rippleModifier).add(this._ripple);
+        radioContainer.add(rippleModifier).add(this._ripple);
 
         if (this.options.size && (typeof this.options.size[0]) === 'number') {
             this.options.label.size = [

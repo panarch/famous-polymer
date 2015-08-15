@@ -1,13 +1,13 @@
 // @author Taehoon Moon
 require('../styles');
 
-var Surface = require('famous/core/Surface');
-var Transform = require('famous/core/Transform');
-var Modifier = require('famous/core/Modifier');
-var OptionsManager = require('famous/core/OptionsManager');
-var StateModifier = require('famous/modifiers/StateModifier');
-var ContainerSurface = require('famous/surfaces/ContainerSurface');
-var Easing = require('famous/transitions/Easing');
+var Surface = require('famous-mig/core/Surface');
+var Transform = require('famous-mig/core/Transform');
+var Modifier = require('famous-mig/core/Modifier');
+var OptionsManager = require('famous-mig/core/OptionsManager');
+var StateModifier = require('famous-mig/modifiers/StateModifier');
+var ContainerSurface = require('famous-mig/surfaces/ContainerSurface');
+var Easing = require('famous-mig/transitions/Easing');
 
 function PaperRipple(options) {
     ContainerSurface.apply(this, arguments);
@@ -36,12 +36,12 @@ function PaperRipple(options) {
     this._ripple = this.options.ripple;
 
     var eventModifier = new Modifier({
-        transform: Transform.translate(0, 0, 0.01)
+        transform: Transform.translate(0, 0, 10)
     });
 
     var eventSurface = new Surface({
         properties: {
-            zIndex: 1
+            zIndex: 5
         }
     });
 
@@ -103,6 +103,7 @@ function _onClick(e) {
     }
     var d = this._ripple.duration;
 
+    modifier.setOpacity(1);
     modifier.setTransform(
         Transform.thenMove(Transform.scale(0, 0), [beginX, beginY, 0]),
         { duration: 1 },
@@ -122,8 +123,7 @@ function _onClick(e) {
     }
 
     function callback2() {
-        modifier.setOpacity(1, { duration: 1 });
-        modifier.setTransform(Transform.scale(0, 0), { duration: 1 });
+        modifier.setTransform(Transform.scale(0, 0));
         this._waitings.push(item);
     }
 }
